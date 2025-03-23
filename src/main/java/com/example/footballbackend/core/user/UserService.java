@@ -37,8 +37,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<User> getUserByUsername(@NonNull String username,Pageable pageable){
-        return userRepo.findBookByUsername(username, pageable);
+    public Page<User> getUserByUsername(@NonNull String username, Pageable pageable){
+        return userRepo.findUserByUsername(username, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<User> getUserByRole(@NonNull String description, Pageable pageable){
+        return userRepo.findUsersByRole(description, pageable);
     }
 
     @Transactional

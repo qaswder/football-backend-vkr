@@ -1,12 +1,14 @@
 package com.example.footballbackend.core.user.handler;
 
+import com.example.footballbackend.core.role.RoleService;
+import com.example.footballbackend.core.role.dto.Role;
 import com.example.footballbackend.core.user.UserService;
 import com.example.footballbackend.core.user.converter.UserConverter;
-import com.example.footballbackend.core.user.dto.RoleEnum;
 import com.example.footballbackend.core.user.dto.User;
 import com.example.footballbackend.core.user.web.contract.UserCreateReq;
 import com.example.footballbackend.core.user.web.contract.UserUpdateReq;
 import com.example.footballbackend.core.user.web.contract.UserView;
+import com.example.footballbackend.core.user.web.contract.UserWithRoleView;
 import com.example.footballbackend.error.NotFoundException;
 import com.example.footballbackend.util.MessageUtil;
 import org.springframework.data.domain.Page;
@@ -16,21 +18,22 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class UserHandler {
     private final UserConverter converter;
     private final UserService service;
     private final MessageUtil messageUtil;
+    private final RoleService roleService;
 
     public UserHandler(UserConverter converter,
                        UserService service,
-                       MessageUtil messageUtil){
+                       MessageUtil messageUtil,
+                       RoleService roleService) {
         this.converter = converter;
         this.service = service;
         this.messageUtil = messageUtil;
+        this.roleService = roleService;
     }
 
     public UserView handlerGetUserById(@NonNull Integer id) {
@@ -49,9 +52,9 @@ public class UserHandler {
     }
 
     public Page<UserView> handlerGetUserByUsername(@NonNull String username,
-                                               @NonNull Pageable pageable) {
+                                                   @NonNull Pageable pageable) {
         Page<User> users = service.getUserByUsername(username, pageable);
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             throw new NotFoundException(messageUtil.getMessage("user.username.not-found", username));
         }
         List<UserView> userViewList = users.stream()
@@ -60,13 +63,29 @@ public class UserHandler {
         return new PageImpl<>(userViewList);
     }
 
+    public Page<UserWithRoleView> handlerGetUserByRole(@NonNull String description,
+                                                       @NonNull Pageable pageable) {
+        Page<User> users = service.getUserByRole(description, pageable);
+        if (users.isEmpty()) {
+            throw new NotFoundException(messageUtil.getMessage("user.role.description.not-found", description));
+        }
+        List<UserWithRoleView> userViewList = users.stream()
+                .map(converter::toWithRoleView)
+                .toList();
+        return new PageImpl<>(userViewList);
+    }
+
     public UserView handlerCreateUser(@NonNull UserCreateReq req) {
+        final Role defaultRole = roleService
+                .getRoleByDescription("Пользователь")
+                .orElseThrow(() -> new NotFoundException(messageUtil.getMessage("user.id.not-found", "Пользователь")));
         final User user = new User();
+
         user.setUsername(req.username());
         user.setEmail(req.email());
         user.setLogin(req.login());
         user.setPassword(req.password());
-        user.setUserRole(RoleEnum.getRoleByCode(req.userRole()));
+        user.setUserRole(defaultRole);
 
         return converter.toView(
                 service.saveUser(user)

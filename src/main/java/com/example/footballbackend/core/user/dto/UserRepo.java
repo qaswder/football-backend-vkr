@@ -2,7 +2,6 @@ package com.example.footballbackend.core.user.dto;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,5 +18,9 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     Optional<User> findById(@Param("id") Integer id);
 
     @Query("select u from User u where u.username like %:searchTerm%")
-    Page<User> findBookByUsername(@Param("searchTerm") String searchTerm, Pageable pageable);
+    Page<User> findUserByUsername(@Param("searchTerm") String searchTerm, Pageable pageable);
+
+    @Query("select u from User u join u.userRole r where r.description = :description")
+    Page<User> findUsersByRole(@Param("description") String description, Pageable pageable);
+
 }

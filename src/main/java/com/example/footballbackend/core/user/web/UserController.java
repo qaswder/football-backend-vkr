@@ -4,6 +4,7 @@ import com.example.footballbackend.core.user.handler.UserHandler;
 import com.example.footballbackend.core.user.web.contract.UserCreateReq;
 import com.example.footballbackend.core.user.web.contract.UserUpdateReq;
 import com.example.footballbackend.core.user.web.contract.UserView;
+import com.example.footballbackend.core.user.web.contract.UserWithRoleView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -48,6 +49,16 @@ public class UserController {
                                          @RequestParam(name = "page", required = false, defaultValue = "0") Integer page) {
         Pageable pageable = PageRequest.of(page, size);
         return handler.handlerGetUserByUsername(username, pageable);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/roles")
+    @Operation(summary = "Получение пользователей по роли")
+    public Page<UserWithRoleView> getUserByRole(@RequestParam @NotNull String description,
+                                                    @RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
+                                                    @RequestParam(name = "page", required = false, defaultValue = "0") Integer page) {
+        Pageable pageable = PageRequest.of(page, size);
+        return handler.handlerGetUserByRole(description, pageable);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

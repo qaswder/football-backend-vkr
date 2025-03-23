@@ -1,5 +1,6 @@
 package com.example.footballbackend.core.user.dto;
 
+import com.example.footballbackend.core.role.dto.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,8 +28,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "user_role")
-    private RoleEnum userRole;
+    @ManyToOne
+    @JoinColumn(name = "user_role_id")
+    private Role userRole;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -78,11 +80,11 @@ public class User {
         this.password = password;
     }
 
-    public RoleEnum getUserRole() {
+    public Role getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(RoleEnum userRole) {
+    public void setUserRole(Role userRole) {
         this.userRole = userRole;
     }
 
