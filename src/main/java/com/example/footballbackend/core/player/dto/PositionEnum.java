@@ -1,6 +1,5 @@
 package com.example.footballbackend.core.player.dto;
 
-import com.example.footballbackend.core.user.dto.RoleEnum;
 import org.springframework.lang.Nullable;
 
 import java.util.Objects;
