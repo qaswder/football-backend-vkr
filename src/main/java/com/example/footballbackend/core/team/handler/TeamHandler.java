@@ -68,7 +68,11 @@ public class TeamHandler {
         final Team prototype = service.getReferenceOrNew(id);
 
         Optional.ofNullable(req.teamName()).ifPresent(prototype::setTeamName);
-        Optional.ofNullable(coachService.getReferenceOrNew(req.coachId())).ifPresent(prototype::setCoach);
+        Optional.ofNullable(req.coachId())
+                .map(coachId -> coachService.getCoachById(coachId)
+                        .orElseThrow(() -> new NotFoundException(
+                                messageUtil.getMessage("coach.id.not-found", coachId))))
+                .ifPresent(prototype::setCoach);
         Optional.ofNullable(req.league()).ifPresent(prototype::setLeague);
 
         return converter.toView(

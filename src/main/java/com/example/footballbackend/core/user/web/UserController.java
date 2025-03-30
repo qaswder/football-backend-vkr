@@ -27,14 +27,14 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    @Operation(summary = "Получение книги по id")
+    @Operation(summary = "Получение пользователя по id")
     public UserView getUserById(@PathVariable @NotNull Integer id) {
         return handler.handlerGetUserById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    @Operation(summary = "Получение всех книг")
+    @Operation(summary = "Получение всех пользователей")
     public Page<UserView> getAllUsers(@RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
                                       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page) {
         Pageable pageable = PageRequest.of(page, size);
@@ -43,7 +43,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
-    @Operation(summary = "Получение книги по названию")
+    @Operation(summary = "Получение пользователя по имени")
     public Page<UserView> getUserByUsername(@RequestParam @NotNull String username,
                                          @RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
                                          @RequestParam(name = "page", required = false, defaultValue = "0") Integer page) {
@@ -63,14 +63,14 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/")
-    @Operation(summary = "Создание книги")
+    @Operation(summary = "Создание пользователя")
     public UserView createUser(@Valid @RequestBody @NotNull UserCreateReq req) {
         return handler.handlerCreateUser(req);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    @Operation(summary = "Изменение книги")
+    @Operation(summary = "Изменение пользователя")
     public UserView updateUserById(@PathVariable @NotNull Integer id,
                                    @Valid @RequestBody @NotNull UserUpdateReq req) {
         return handler.handlerUpdateUserById(id, req);
@@ -78,7 +78,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    @Operation(summary = "Удаление книги")
+    @Operation(summary = "Удаление пользователя")
     public void deleteUserById(@PathVariable @NotNull Integer id) {
         handler.handlerDeleteUserById(id);
     }

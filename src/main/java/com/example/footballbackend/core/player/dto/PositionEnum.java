@@ -23,7 +23,7 @@ public enum PositionEnum {
         return code;
     }
 
-    public static PositionEnum getGenreByCode(@Nullable String code) {
+    public static PositionEnum getPositionByCode(@Nullable String code) {
         return Stream.of(PositionEnum.values())
                 .filter(e -> Objects.equals(e.getCode(), code))
                 .findFirst()

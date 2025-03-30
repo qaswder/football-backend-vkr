@@ -8,8 +8,6 @@ import com.example.footballbackend.core.player.web.contract.PlayerReq;
 import com.example.footballbackend.core.player.web.contract.PlayerView;
 import com.example.footballbackend.core.team.TeamService;
 import com.example.footballbackend.core.team.dto.Team;
-import com.example.footballbackend.core.user.dto.User;
-import com.example.footballbackend.core.user.web.contract.UserUpdateReq;
 import com.example.footballbackend.error.NotFoundException;
 import com.example.footballbackend.util.MessageUtil;
 import org.springframework.data.domain.Page;
@@ -72,7 +70,7 @@ public class PlayerHandler {
         player.setName(req.name());
         player.setPatronymic(req.patronymic());
         player.setBirthdate(req.birthdate());
-        player.setPosition(PositionEnum.getGenreByCode(req.position()));
+        player.setPosition(PositionEnum.getPositionByCode(req.position()));
         player.setTeam(null);
 
         return converter.toView(
@@ -99,7 +97,7 @@ public class PlayerHandler {
         Optional.ofNullable(req.name()).ifPresent(prototype::setName);
         Optional.ofNullable(req.patronymic()).ifPresent(prototype::setPatronymic);
         Optional.ofNullable(req.birthdate()).ifPresent(prototype::setBirthdate);
-        Optional.ofNullable(PositionEnum.getGenreByCode(req.position())).ifPresent(prototype::setPosition);
+        Optional.ofNullable(PositionEnum.getPositionByCode(req.position())).ifPresent(prototype::setPosition);
 
         return converter.toView(
                 service.savePlayer(prototype)

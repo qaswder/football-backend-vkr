@@ -25,14 +25,14 @@ public class TeamController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    @Operation(summary = "Получение игрока по id")
+    @Operation(summary = "Получение команды по id")
     public TeamView getTeamById(@PathVariable @NotNull Integer id) {
         return handler.handlerGetTeamById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    @Operation(summary = "Получение всех игроков")
+    @Operation(summary = "Получение всех команд")
     public Page<TeamView> getAllTeams(@RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
                                       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page) {
         Pageable pageable = PageRequest.of(page, size);
@@ -41,14 +41,14 @@ public class TeamController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/")
-    @Operation(summary = "Создание тренера")
+    @Operation(summary = "Создание команды")
     public TeamView createTeam(@Valid @RequestBody @NotNull TeamReq req) {
         return handler.handlerCreateTeam(req);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    @Operation(summary = "Изменение тренера")
+    @Operation(summary = "Изменение команды")
     public TeamView updateTeamById(@PathVariable @NotNull Integer id,
                                    @Valid @RequestBody @NotNull TeamReq req) {
         return handler.handlerUpdateTeamById(id, req);
@@ -56,7 +56,7 @@ public class TeamController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    @Operation(summary = "Удаление тренера")
+    @Operation(summary = "Удаление команды")
     public void deleteTeamById(@PathVariable @NotNull Integer id) {
         handler.handlerDeleteTeamById(id);
     }
