@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/match")
+@RequestMapping("/api/match")
 @Tag(name = "Матч")
 public class MatchController {
     private final MatchHandler handler;
@@ -42,7 +42,7 @@ public class MatchController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "Создание матча")
     public MatchView createMatch(@Validated(OnCreate.class) @RequestBody @NotNull MatchReq req) {
         return handler.handlerCreateMatch(req);

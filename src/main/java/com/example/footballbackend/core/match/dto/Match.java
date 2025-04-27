@@ -1,10 +1,17 @@
 package com.example.footballbackend.core.match.dto;
 
+import com.example.footballbackend.core.statistics.dto.Statistics;
 import com.example.footballbackend.core.team.dto.Team;
+import com.example.footballbackend.core.tournament.dto.Tournament;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "fc_match")
 public class Match {
@@ -25,47 +32,20 @@ public class Match {
     @Column(name = "score")
     private String score;
 
+    @Column(name = "location")
+    private String location;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "match_status")
+    private MatchStatusEnum status;
+
     @Column(name = "date_time")
     private LocalDateTime dateTime;
 
-    ////////////////////////
-    public Integer getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Team getHomeTeam() {
-        return homeTeam;
-    }
-
-    public void setHomeTeam(Team homeTeam) {
-        this.homeTeam = homeTeam;
-    }
-
-    public Team getAwayTeam() {
-        return awayTeam;
-    }
-
-    public void setAwayTeam(Team awayTeam) {
-        this.awayTeam = awayTeam;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
+    @OneToMany(mappedBy = "match")
+    private List<Statistics> playerStats;
 }

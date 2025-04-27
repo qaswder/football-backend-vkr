@@ -1,8 +1,5 @@
 package com.example.footballbackend.core.match.handler;
 
-import com.example.footballbackend.core.coach.dto.Coach;
-import com.example.footballbackend.core.coach.web.contract.CoachReq;
-import com.example.footballbackend.core.coach.web.contract.CoachView;
 import com.example.footballbackend.core.match.MatchService;
 import com.example.footballbackend.core.match.converter.MatchConverter;
 import com.example.footballbackend.core.match.dto.Match;
