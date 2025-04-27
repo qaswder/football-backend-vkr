@@ -10,7 +10,7 @@ public record UserView(
         String username,
         @Schema(description = "Почта")
         String email,
-        @Schema(description = "Логин")
-        String login
+        @Schema(description = "Пароль")
+        String password
 ) {
 }

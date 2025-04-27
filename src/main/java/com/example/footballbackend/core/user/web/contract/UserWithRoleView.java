@@ -10,8 +10,8 @@ public record UserWithRoleView(
         String username,
         @Schema(description = "Почта")
         String email,
-        @Schema(description = "Логин")
-        String login,
+        @Schema(description = "Пароль")
+        String password,
         @Schema(description = "Роль")
         String roleDescription
 ) {

@@ -16,7 +16,7 @@ public class UserToUserWithRoleView implements Converter<User, UserWithRoleView>
                 source.getId(),
                 source.getUsername(),
                 source.getEmail(),
-                source.getLogin(),
+                source.getPassword(),
                 role.getDescription()
         );
     }

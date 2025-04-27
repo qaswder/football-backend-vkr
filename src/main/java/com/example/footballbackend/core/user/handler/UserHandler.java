@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,15 +26,19 @@ public class UserHandler {
     private final UserService service;
     private final MessageUtil messageUtil;
     private final RoleService roleService;
+    private final PasswordEncoder encoder;
 
     public UserHandler(UserConverter converter,
                        UserService service,
                        MessageUtil messageUtil,
-                       RoleService roleService) {
+                       RoleService roleService,
+                       PasswordEncoder encoder) {
         this.converter = converter;
         this.service = service;
         this.messageUtil = messageUtil;
         this.roleService = roleService;
+        this.encoder = encoder;
+
     }
 
     public UserView handlerGetUserById(@NonNull Integer id) {
@@ -78,13 +83,18 @@ public class UserHandler {
     public UserView handlerCreateUser(@NonNull UserCreateReq req) {
         final Role defaultRole = roleService
                 .getRoleByDescription("Пользователь")
-                .orElseThrow(() -> new NotFoundException(messageUtil.getMessage("user.id.not-found", "Пользователь")));
+                .orElseThrow(() ->
+                        new NotFoundException(messageUtil.getMessage("role.description.not-found", "Пользователь"))
+                );
         final User user = new User();
+
+        if(service.getUserByEmail(req.email()).isPresent()){
+            return null;
+        }
 
         user.setUsername(req.username());
         user.setEmail(req.email());
-        user.setLogin(req.login());
-        user.setPassword(req.password());
+        user.setPassword(encoder.encode(req.password()));
         user.setUserRole(defaultRole);
 
         return converter.toView(

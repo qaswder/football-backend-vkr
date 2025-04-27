@@ -13,7 +13,7 @@ public class UserToUserView implements Converter<User, UserView> {
                 source.getId(),
                 source.getUsername(),
                 source.getEmail(),
-                source.getLogin()
+                source.getPassword()
         );
     }
 }

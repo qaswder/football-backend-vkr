@@ -37,6 +37,12 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<User> getUserByEmail(@NonNull String email){
+        return userRepo.findUserByEmail(email);
+    }
+
+
+    @Transactional(readOnly = true)
     public Page<User> getUserByUsername(@NonNull String username, Pageable pageable){
         return userRepo.findUserByUsername(username, pageable);
     }

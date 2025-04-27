@@ -8,8 +8,6 @@ public record UserCreateReq(
         @NotBlank
         String username,
         @NotBlank
-        String login,
-        @NotBlank
         String email,
         @NotBlank
         String password

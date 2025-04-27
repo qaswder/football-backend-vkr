@@ -20,6 +20,9 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     @Query("select u from User u where u.username like %:searchTerm%")
     Page<User> findUserByUsername(@Param("searchTerm") String searchTerm, Pageable pageable);
 
+    @Query("select u from User u where u.email = :email")
+    Optional<User> findUserByEmail(@Param("email") String email);
+
     @Query("select u from User u join u.userRole r where r.description = :description")
     Page<User> findUsersByRole(@Param("description") String description, Pageable pageable);
 
