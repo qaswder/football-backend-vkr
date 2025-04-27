@@ -18,12 +18,17 @@ public class StatisticsToStatisticsView implements Converter<Statistics, Statist
 
         return new StatisticsView(
                 source.getId(),
+                player.getId(),
+                source.getMatch().getId(),
                 player.getPosition().getCode(),
                 fullName,
                 source.getGoals(),
                 source.getAssists(),
                 source.getYellowCards(),
                 source.getRedCards(),
+                source.getPlayedMinutes(),
+                source.getShots(),
+                source.getPasses(),
                 source.getSeason()
         );
     }

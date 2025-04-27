@@ -3,7 +3,6 @@ package com.example.footballbackend.core.statistics;
 import com.example.footballbackend.core.statistics.dto.Statistics;
 import com.example.footballbackend.core.statistics.dto.StatisticsRepo;
 import com.example.footballbackend.error.ConflictResourceException;
-import com.example.footballbackend.error.NotFoundException;
 import com.example.footballbackend.util.MessageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -52,9 +51,6 @@ public class StatisticsService {
 
     @Transactional
     public void deleteStatisticsById(@NonNull Integer id) {
-        Statistics match = getStatisticsById(id)
-                .orElseThrow(() -> new NotFoundException(messageUtil.getMessage("statistics.id.not-found", id)));
-
-        statisticsRepo.delete(match);
+        statisticsRepo.deleteById(id);
     }
 }

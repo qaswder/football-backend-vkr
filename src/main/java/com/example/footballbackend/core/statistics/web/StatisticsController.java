@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/stats")
+@RequestMapping("/api/stats")
 @Tag(name = "Статистика")
 public class StatisticsController {
     private final StatisticsHandler handler;
@@ -42,14 +42,14 @@ public class StatisticsController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create")
+    @PostMapping
     @Operation(summary = "Создание статистики игрока")
     public StatisticsView createStatistics(@Validated(OnCreate.class) @RequestBody @NotNull StatisticsReq req) {
         return handler.handlerCreateStatistics(req);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/edit/{id}")
+    @PutMapping("/{id}")
     @Operation(summary = "Изменение статистики игрока")
     public StatisticsView updateStatisticsById(@PathVariable @NotNull Integer id,
                                           @Valid @RequestBody @NotNull StatisticsReq req) {
@@ -57,7 +57,7 @@ public class StatisticsController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Удаление статистики игрока")
     public void deleteStatisticsById(@PathVariable @NotNull Integer id) {
         handler.handlerDeleteStatisticsById(id);
