@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/api/team")
 @Tag(name = "Команда")
 public class TeamController {
     private final TeamHandler handler;
@@ -40,7 +40,7 @@ public class TeamController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "Создание команды")
     public TeamView createTeam(@Valid @RequestBody @NotNull TeamReq req) {
         return handler.handlerCreateTeam(req);

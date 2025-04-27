@@ -8,9 +8,11 @@ public record TeamView(
         Integer id,
         @Schema(description = "Название")
         String teamName,
-        @Schema(description = "Имя тренера")
-        String coachName,
-        @Schema(description = "Лига")
-        String league
+        @Schema(description = "Короткое название")
+        String teamShortName,
+        @Schema(description = "Стадион")
+        String stadium,
+        @Schema(description = "Логотип")
+        String logoUrl
 ) {
 }

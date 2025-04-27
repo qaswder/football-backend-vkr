@@ -1,12 +1,15 @@
 package com.example.footballbackend.core.team.dto;
 
-import com.example.footballbackend.core.coach.dto.Coach;
 import com.example.footballbackend.core.player.dto.Player;
-import com.example.footballbackend.core.user.dto.User;
+import com.example.footballbackend.core.staff.dto.Staff;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "fc_team")
 public class Team {
@@ -19,54 +22,18 @@ public class Team {
     @Column(name = "team_name")
     private String teamName;
 
-    @OneToOne
-    @JoinColumn(name = "coach_id", referencedColumnName = "id")
-    private Coach coach;
+    @Column(name = "team_short_name")
+    private String teamShortName;
 
-    @Column(name = "league")
-    private String league;
+    @Column(name = "stadium")
+    private String stadium;
+
+    @Column(name = "logo_url")
+    private String logoUrl;
+
+    @OneToMany(mappedBy = "team")
+    private List<Staff> staff;
 
     @OneToMany(mappedBy = "team")
     private List<Player> players;
-
-    ////////////////////////
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public Coach getCoach() {
-        return coach;
-    }
-
-    public void setCoach(Coach coach) {
-        this.coach = coach;
-    }
-
-    public String getLeague() {
-        return league;
-    }
-
-    public void setLeague(String league) {
-        this.league = league;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-    }
 }

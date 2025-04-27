@@ -3,7 +3,6 @@ package com.example.footballbackend.core.team;
 import com.example.footballbackend.core.team.dto.Team;
 import com.example.footballbackend.core.team.dto.TeamRepo;
 import com.example.footballbackend.error.ConflictResourceException;
-import com.example.footballbackend.error.NotFoundException;
 import com.example.footballbackend.util.MessageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,12 +17,10 @@ import java.util.Optional;
 @Service
 public class TeamService {
     private final TeamRepo teamRepo;
-    private final MessageUtil messageUtil;
 
     public TeamService(TeamRepo teamRepo,
                        MessageUtil messageUtil) {
         this.teamRepo = teamRepo;
-        this.messageUtil = messageUtil;
     }
 
     @Transactional(readOnly = true)
@@ -52,9 +49,6 @@ public class TeamService {
 
     @Transactional
     public void deleteTeamById(@NonNull Integer id) {
-        Team team = getTeamById(id)
-                .orElseThrow(() -> new NotFoundException(messageUtil.getMessage("team.id.not-found", id)));
-
-        teamRepo.delete(team);
+        teamRepo.deleteById(id);
     }
 }

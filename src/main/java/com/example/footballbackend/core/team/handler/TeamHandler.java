@@ -1,7 +1,6 @@
 package com.example.footballbackend.core.team.handler;
 
-import com.example.footballbackend.core.coach.CoachService;
-import com.example.footballbackend.core.coach.dto.Coach;
+import com.example.footballbackend.core.staff.dto.Staff;
 import com.example.footballbackend.core.team.TeamService;
 import com.example.footballbackend.core.team.converter.TeamConverter;
 import com.example.footballbackend.core.team.dto.Team;
@@ -16,22 +15,18 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class TeamHandler {
     private final TeamConverter converter;
     private final TeamService service;
-    private final CoachService coachService;
     private final MessageUtil messageUtil;
 
     public TeamHandler(TeamConverter converter,
                        TeamService service,
-                       CoachService coachService,
                        MessageUtil messageUtil) {
         this.converter = converter;
         this.service = service;
-        this.coachService = coachService;
         this.messageUtil = messageUtil;
     }
 
@@ -44,20 +39,16 @@ public class TeamHandler {
 
     public Page<TeamView> handlerGetAllTeam(@NonNull Pageable pageable) {
         Page<Team> teams = service.getAllTeam(pageable);
-        List<TeamView> teamViewList = teams.stream()
-                .map(converter::toView)
-                .toList();
-        return new PageImpl<>(teamViewList);
+        return teams.map(converter::toView);
     }
 
     public TeamView handlerCreateTeam(@NonNull TeamReq req) {
-        final Coach coach = coachService.getCoachById(req.coachId())
-                .orElseThrow(() -> new NotFoundException(messageUtil.getMessage("coach.id.not-found", req.coachId())));
         final Team team = new Team();
 
         team.setTeamName(req.teamName());
-        team.setCoach(coach);
-        team.setLeague(req.league());
+        team.setTeamShortName(req.teamShortName());
+        team.setStadium(req.stadium());
+        team.setLogoUrl(req.logoUrl());
 
         return converter.toView(
                 service.saveTeam(team)
@@ -67,13 +58,10 @@ public class TeamHandler {
     public TeamView handlerUpdateTeamById(@NonNull Integer id, @NonNull TeamReq req) {
         final Team prototype = service.getReferenceOrNew(id);
 
-        Optional.ofNullable(req.teamName()).ifPresent(prototype::setTeamName);
-        Optional.ofNullable(req.coachId())
-                .map(coachId -> coachService.getCoachById(coachId)
-                        .orElseThrow(() -> new NotFoundException(
-                                messageUtil.getMessage("coach.id.not-found", coachId))))
-                .ifPresent(prototype::setCoach);
-        Optional.ofNullable(req.league()).ifPresent(prototype::setLeague);
+        prototype.setTeamName(req.teamName());
+        prototype.setTeamShortName(req.teamShortName());
+        prototype.setStadium(req.stadium());
+        prototype.setLogoUrl(req.logoUrl());
 
         return converter.toView(
                 service.saveTeam(prototype)
