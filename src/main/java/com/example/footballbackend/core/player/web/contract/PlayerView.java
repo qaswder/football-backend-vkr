@@ -16,9 +16,15 @@ public record PlayerView(
         String patronymic,
         @Schema(description = "Дата рождения")
         LocalDate birthdate,
+        @Schema(description = "Национальность")
+        String nationality,
         @Schema(description = "Позиция")
         String position,
+        @Schema(description = "Номер игрока")
+        Integer playerNumber,
         @Schema(description = "Команда")
-        String teamName
+        String teamName,
+        @Schema(description = "Фото игрока")
+        String photoUrl
 ) {
 }

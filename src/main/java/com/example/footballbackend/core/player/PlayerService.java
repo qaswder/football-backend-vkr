@@ -2,9 +2,7 @@ package com.example.footballbackend.core.player;
 
 import com.example.footballbackend.core.player.dto.Player;
 import com.example.footballbackend.core.player.dto.PlayerRepo;
-import com.example.footballbackend.core.user.dto.User;
 import com.example.footballbackend.error.ConflictResourceException;
-import com.example.footballbackend.error.NotFoundException;
 import com.example.footballbackend.util.MessageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -58,9 +56,6 @@ public class PlayerService {
 
     @Transactional
     public void deletePlayerById(@NonNull Integer id) {
-        Player player = getPlayerById(id)
-                .orElseThrow(() -> new NotFoundException(messageUtil.getMessage("player.id.not-found", id)));
-
-        playerRepo.delete(player);
+        playerRepo.deleteById(id);
     }
 }

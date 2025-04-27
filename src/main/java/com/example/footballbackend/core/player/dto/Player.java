@@ -1,14 +1,16 @@
 package com.example.footballbackend.core.player.dto;
 
+import com.example.footballbackend.core.statistics.dto.Statistics;
 import com.example.footballbackend.core.team.dto.Team;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "fc_player")
 public class Player {
@@ -30,92 +32,23 @@ public class Player {
     @Column(name = "birth_date")
     private LocalDate birthdate;
 
+    @Column(name = "nationality")
+    private String nationality;
+
+    @Column(name = "player_number")
+    private Integer playerNumber;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "position")
     private PositionEnum position;
+
+    @Column(name = "photo_url")
+    private String photoUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-
-    ////////////////////////
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPatronymic() {
-        return patronymic;
-    }
-
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public PositionEnum getPosition() {
-        return position;
-    }
-
-    public void setPosition(PositionEnum position) {
-        this.position = position;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    @OneToMany(mappedBy = "player")
+    private List<Statistics> playerStats;
 }

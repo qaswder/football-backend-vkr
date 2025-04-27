@@ -17,7 +17,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class PlayerHandler {
@@ -45,10 +44,7 @@ public class PlayerHandler {
 
     public Page<PlayerView> handlerGetAllPlayer(@NonNull Pageable pageable) {
         Page<Player> players = service.getAllPlayer(pageable);
-        List<PlayerView> playerViewList = players.stream()
-                .map(converter::toView)
-                .toList();
-        return new PageImpl<>(playerViewList);
+        return players.map(converter::toView);
     }
 
     public Page<PlayerView> handlerGetPlayerByName(@NonNull String name,
@@ -57,10 +53,7 @@ public class PlayerHandler {
         if (players.isEmpty()) {
             throw new NotFoundException(messageUtil.getMessage("player.name.not-found", name));
         }
-        List<PlayerView> playerViewList = players.stream()
-                .map(converter::toView)
-                .toList();
-        return new PageImpl<>(playerViewList);
+        return players.map(converter::toView);
     }
 
     public PlayerView handlerCreatePlayer(@NonNull PlayerReq req) {
@@ -70,7 +63,9 @@ public class PlayerHandler {
         player.setName(req.name());
         player.setPatronymic(req.patronymic());
         player.setBirthdate(req.birthdate());
+        player.setNationality(req.nationality());
         player.setPosition(PositionEnum.getPositionByCode(req.position()));
+        player.setPlayerNumber(req.playerNumber());
         player.setTeam(null);
 
         return converter.toView(
@@ -93,11 +88,13 @@ public class PlayerHandler {
     public PlayerView handlerUpdatePlayerById(@NonNull Integer id, @NonNull PlayerReq req) {
         final Player prototype = service.getReferenceOrNew(id);
 
-        Optional.ofNullable(req.surname()).ifPresent(prototype::setSurname);
-        Optional.ofNullable(req.name()).ifPresent(prototype::setName);
-        Optional.ofNullable(req.patronymic()).ifPresent(prototype::setPatronymic);
-        Optional.ofNullable(req.birthdate()).ifPresent(prototype::setBirthdate);
-        Optional.ofNullable(PositionEnum.getPositionByCode(req.position())).ifPresent(prototype::setPosition);
+        prototype.setSurname(req.surname());
+        prototype.setName(req.name());
+        prototype.setPatronymic(req.patronymic());
+        prototype.setBirthdate(req.birthdate());
+        prototype.setNationality(req.nationality());
+        prototype.setPosition(PositionEnum.getPositionByCode(req.position()));
+        prototype.setPlayerNumber(req.playerNumber());
 
         return converter.toView(
                 service.savePlayer(prototype)

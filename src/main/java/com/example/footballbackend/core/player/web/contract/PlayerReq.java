@@ -17,6 +17,11 @@ public record PlayerReq(
         @NotNull
         LocalDate birthdate,
         @NotBlank
-        String position
+        String nationality,
+        @NotNull
+        Integer playerNumber,
+        @NotBlank
+        String position,
+        String photoUrl
 ) {
 }

@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/player")
+@RequestMapping("/api/player")
 @Tag(name = "Игрок")
 public class PlayerController {
     private final PlayerHandler handler;
@@ -50,7 +50,7 @@ public class PlayerController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "Создание игрока")
     public PlayerView createPlayer(@Valid @RequestBody @NotNull PlayerReq req) {
         return handler.handlerCreatePlayer(req);

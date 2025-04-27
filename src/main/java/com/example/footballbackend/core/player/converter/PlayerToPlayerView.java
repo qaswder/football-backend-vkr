@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class PlayerToPlayerView implements Converter<Player, PlayerView> {
     @Override
     public PlayerView convert(Player source) {
-        String teamName = null;
+        String teamName = "Свободный игрок";
         if (source.getTeam() != null){
             teamName = source.getTeam().getTeamName();
         }
@@ -20,8 +20,11 @@ public class PlayerToPlayerView implements Converter<Player, PlayerView> {
                 source.getName(),
                 source.getPatronymic(),
                 source.getBirthdate(),
+                source.getNationality(),
                 source.getPosition().getCode(),
-                teamName
+                source.getPlayerNumber(),
+                teamName,
+                source.getPhotoUrl()
         );
     }
 }
