@@ -1,4 +1,4 @@
-package com.example.footballbackend.core.coach.dto;
+package com.example.footballbackend.core.staff.dto;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CoachRepo extends JpaRepository<Coach, Integer> {
+public interface StaffRepo extends JpaRepository<Staff, Integer> {
     @EntityGraph(attributePaths = {"team"})
-    @Query("select c from Coach c")
-    Page<Coach> findAllCoach(Pageable pageable);
+    @Query("select s from Staff s")
+    Page<Staff> findAllStaff(Pageable pageable);
 
     @EntityGraph(attributePaths = {"team"})
-    @Query("select c from Coach c where c.id = :id")
-    Optional<Coach> findById(@Param("id") Integer id);
+    @Query("select s from Staff s where s.id = :id")
+    Optional<Staff> findById(@Param("id") Integer id);
 }
