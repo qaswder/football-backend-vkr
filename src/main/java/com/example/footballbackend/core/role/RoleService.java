@@ -2,7 +2,6 @@ package com.example.footballbackend.core.role;
 
 import com.example.footballbackend.core.role.dto.Role;
 import com.example.footballbackend.core.role.dto.RoleRepo;
-import com.example.footballbackend.core.user.dto.User;
 import com.example.footballbackend.error.ConflictResourceException;
 import com.example.footballbackend.error.NotFoundException;
 import com.example.footballbackend.util.MessageUtil;

@@ -1,13 +1,18 @@
 package com.example.footballbackend.core.role.dto;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "fc_role_user", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"role_name"}),
         @UniqueConstraint(columnNames = {"description"})
 })
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     @SequenceGenerator(name = "seq_gen_role", sequenceName = "seq_role", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_gen_role")
@@ -20,27 +25,9 @@ public class Role {
     @Column(name = "description")
     private String description;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getRoleName() {
+    @Override
+    public String getAuthority() {
         return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

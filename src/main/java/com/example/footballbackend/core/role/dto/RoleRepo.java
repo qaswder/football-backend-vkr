@@ -1,6 +1,5 @@
 package com.example.footballbackend.core.role.dto;
 
-import com.example.footballbackend.core.user.dto.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

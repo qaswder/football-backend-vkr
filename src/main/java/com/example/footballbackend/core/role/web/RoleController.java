@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/api/roles")
 @Tag(name = "Роли пользователей")
 public class RoleController {
     private final RoleHandler handler;
@@ -41,7 +41,7 @@ public class RoleController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "Создание роли")
     public RoleView createRole(@Valid @RequestBody @NotNull RoleCreateReq req) {
         return handler.handlerCreateRole(req);
